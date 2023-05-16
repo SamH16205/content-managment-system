@@ -24,3 +24,4 @@ CREATE TABLE employees (
   salary INT NOT NULL,
   managers TEXT
 );
+
