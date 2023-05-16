@@ -1,3 +1,6 @@
+// todo: foregin primary keys
+// todo: log data in table format
+
 const inquirer = require('inquirer')
 const mysql = require('mysql2');
 const helpers = require('./assets/js/helpers')
@@ -11,36 +14,6 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the company_db database.`)
 );
-
-
-
-// function main(){
-// inquirer
-//   .prompt([
-//     {
-//       type: 'list',
-//       name: 'main',
-//       message: 'What would you like to do?',
-//       choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"]
-//     }
-// ]).then((result) => {
-//     switch (result.main){
-//         case "View all departments": helpers.showDepartments(db)
-//             break
-//         case "View all roles": helpers.showRoles(db)
-//             break
-//         case "View all employees": helpers.showEmployees(db)
-//             break
-//         case "Add a department": inquirer.prompt(helpers.add_department).then((result) => helpers.addDepartment(db, result)).then(() => console.log("Department added to database"))
-//             break
-//         case "Add a role": inquirer.prompt(helpers.add_role).then((result) => helpers.addRole(db, result)).then(() => console.log("Role added to database")).then(()=>main())
-//             break
-//         case "Add an employee": inquirer.prompt(helpers.add_employee).then((result) => helpers.addEmployee(db, result)).then(() => console.log("Employee added to database"))
-//             break
-//         case "Update an employee role": inquirer.prompt(helpers.add_department)
-//             break
-// }})
-// }
 
 function main(){
   inquirer
@@ -74,7 +47,7 @@ function main(){
             inquirer.prompt(helpers.add_employee).then((result) => helpers.addEmployee(db, result)).then(()=>console.log("Employee added to database")).then(() => main())
           }
           if(result.main === "Update an employee role"){
-            inquirer.prompt(helpers.add_department).then(() => main())
+            inquirer.prompt(helpers.update_employee).then((result)=>helpers.updateEmployee(db, result)).then(()=>console.log("Employee role updated.")).then(() => main())
           }
   })
   }

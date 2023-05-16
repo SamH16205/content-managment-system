@@ -47,6 +47,19 @@ const add_department = [
           },
       ]
 
+      const update_employee = [
+        {
+          type: 'input',
+          name: 'id',
+          message: 'Employee ID number: ',
+        },
+        {
+          type: 'input',
+          name: 'new_role',
+          message: 'New role: ',
+        },
+      ]
+
 function generateId(){
     return Math.floor(Math.random()*1000000)
 }
@@ -67,14 +80,11 @@ function addEmployee(db, employee){
   VALUES(${generateId()}, "${employee.first_name}", "${employee.last_name}", "${employee.role}", "placeholder", "5200000", "${employee.managers}");`)
 }
 
-
-
 function showDepartments(db){
     db.query(`SELECT * FROM departments`,function (err, results) {
         console.log(results)
     })
 }
-
 
 function showRoles(db){
     db.query(`SELECT * FROM roles`,function (err, results) {
@@ -82,11 +92,17 @@ function showRoles(db){
     })
 }
 
-
 function showEmployees(db){
     db.query(`SELECT * FROM employees`,function (err, results) {
         console.log(results)
     })
+}
+
+function updateEmployee(db, employee){
+  db.query(`
+  UPDATE employees 
+  SET job_title="${employee.new_role}"
+  WHERE id="${employee.id}";`)
 }
 
 module.exports ={
@@ -97,7 +113,9 @@ module.exports ={
   addRole,
   addDepartment,
   generateId,
+  updateEmployee,
   add_department,
   add_employee,
-  add_role
+  add_role,
+  update_employee
 }
