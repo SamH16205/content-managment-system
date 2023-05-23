@@ -15,7 +15,7 @@ const add_department = [
       {
         type: 'input',
         name: 'department',
-        message: 'Department: ',
+        message: 'Department ID: ',
       },
       {
         type: 'input',
@@ -38,7 +38,7 @@ const add_department = [
           {
             type: 'input',
             name: 'role',
-            message: 'Role: ',
+            message: 'Role ID: ',
           },
           {
             type: 'input',
@@ -56,28 +56,24 @@ const add_department = [
         {
           type: 'input',
           name: 'new_role',
-          message: 'New role: ',
+          message: 'New role ID: ',
         },
       ]
 
-function generateId(){
-    return Math.floor(Math.random()*1000000)
-}
-
 function addDepartment(db, employee){
-    db.query(`INSERT INTO departments (department_name, id)
-    VALUES("${employee.department_name}", ${generateId()})`)
+    db.query(`INSERT INTO departments (department_name)
+    VALUES("${employee.department_name}")`)
 }
 
 
 function addRole (db, employee){
-    db.query(`INSERT INTO roles (job_title, id, department, salary)
-    VALUES("${employee.job_title}", ${generateId()}, "${employee.department}", "${employee.salary}")`)
+    db.query(`INSERT INTO roles (title, department_id, salary)
+    VALUES("${employee.job_title}", ${employee.department}, ${employee.salary})`)
 }
 
 function addEmployee(db, employee){
-  db.query(`INSERT INTO employees (id, first_name, last_name, job_title, department, salary, managers)
-  VALUES(${generateId()}, "${employee.first_name}", "${employee.last_name}", "${employee.role}", "placeholder", "5200000", "${employee.managers}");`)
+  db.query(`INSERT INTO employees (first_name, last_name, role_id,  managers)
+  VALUES("${employee.first_name}", "${employee.last_name}", "${employee.role}", "${employee.managers}");`)
 }
 
 function showDepartments(db){
@@ -105,6 +101,8 @@ function updateEmployee(db, employee){
   WHERE id="${employee.id}";`)
 }
 
+
+
 module.exports ={
   showRoles,
   showEmployees,
@@ -112,7 +110,6 @@ module.exports ={
   addEmployee,
   addRole,
   addDepartment,
-  generateId,
   updateEmployee,
   add_department,
   add_employee,
