@@ -83,13 +83,15 @@ function showDepartments(db){
 }
 
 function showRoles(db){
-    db.query(`SELECT * FROM roles`,function (err, results) {
-        console.log(results)
-    })
+    db.query(`SELECT roles.id, roles.title, roles.salary, departments.department_name AS department FROM roles
+    INNER JOIN departments ON roles.department_id=departments.id`,function (err, results) {
+      console.log(results)
+  })
 }
 
 function showEmployees(db){
-    db.query(`SELECT * FROM employees`,function (err, results) {
+    db.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.salary, roles.title AS role, employees.managers FROM employees
+    INNER JOIN roles ON employees.role_id=roles.id;`,function (err, results) {
         console.log(results)
     })
 }
@@ -97,7 +99,7 @@ function showEmployees(db){
 function updateEmployee(db, employee){
   db.query(`
   UPDATE employees 
-  SET job_title="${employee.new_role}"
+  SET role_id="${employee.new_role}"
   WHERE id="${employee.id}";`)
 }
 
