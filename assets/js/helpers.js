@@ -78,21 +78,21 @@ function addEmployee(db, employee){
 
 function showDepartments(db){
     db.query(`SELECT * FROM departments`,function (err, results) {
-        console.log(results)
+        printTable(results)
     })
 }
 
 function showRoles(db){
     db.query(`SELECT roles.id, roles.title, roles.salary, departments.department_name AS department FROM roles
     INNER JOIN departments ON roles.department_id=departments.id`,function (err, results) {
-      console.log(results)
+      printTable(results)
   })
 }
 
 function showEmployees(db){
     db.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.salary, roles.title AS role, employees.managers FROM employees
     INNER JOIN roles ON employees.role_id=roles.id;`,function (err, results) {
-        console.log(results)
+        printTable(results)
     })
 }
 
@@ -103,7 +103,14 @@ function updateEmployee(db, employee){
   WHERE id="${employee.id}";`)
 }
 
-
+function printTable(obj){
+//   console.log(`\nID     Name     Role     Salary      Managers`)
+//   for (let item of employees){
+//   console.log(`${item.id}    ${item.first_name + ' ' + item.last_name}    ${item.job_title}    ${item.salary}   ${item.managers}`)
+// }
+console.log('\n')
+console.table(obj)
+}
 
 module.exports ={
   showRoles,
